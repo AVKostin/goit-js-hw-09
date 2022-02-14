@@ -18,7 +18,7 @@ img {
 }
 
 .btn {
-	padding: 25px 40px;
+	padding: 11px 15px;
 	margin: 10px;
 	font-size: 32px;
 	text-transform: uppercase;
@@ -26,6 +26,7 @@ img {
 	cursor: pointer;
 	color: rgb(255, 255, 0);
 	background-color: rgb(8, 175, 8);
+	border-radius: 8px;
 	transition: 500ms;
 }
 .btn:hover {
@@ -74,4 +75,18 @@ img {
 	font-size: 32px;
 	padding-left: 5%;
 	margin-left: 20px;
+}
+
+.form input {
+	display: flex;
+	width: 110px;
+	margin-right: -10px;
+	font-size: 18px;
+}
+
+.form label {
+	font-weight: bold;
+	font-size: 18px;
+	margin-right: 12px;
+	display: inline-block;
 }
