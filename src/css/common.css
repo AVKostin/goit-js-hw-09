@@ -24,6 +24,25 @@ img {
 	text-transform: uppercase;
 	border: 1px solid #0f0f0f80;
 	cursor: pointer;
+	color: rgb(255, 255, 0);
+	background-color: rgb(8, 175, 8);
+	transition: 500ms;
+}
+.btn:hover {
+	/* padding: auto; */
+	background-color: rgb(3, 173, 3);
+	color: #fafafa;
+	font-size: 34px;
+	transition: 300ms;
+}
+
+.btn:disabled {
+	/* padding: auto; */
+	background-color: rgb(223, 223, 223);
+	color: #8b0404;
+	font-size: 32px;
+	transition: 300ms;
+	cursor: not-allowed;
 }
 
 .wrapper {
