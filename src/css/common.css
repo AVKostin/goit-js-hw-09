@@ -32,3 +32,27 @@ img {
 	justify-content: center;
 	align-items: center;
 }
+
+.container {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.field {
+	display: inline-block;
+	font-size: 1.2em;
+	list-style-type: none;
+	padding: 20px;
+	text-transform: uppercase;
+}
+
+.value {
+	display: block;
+	font-size: 32px;
+	text-align: center;
+}
+.flatpickr-input {
+	font-size: 32px;
+	padding-left: 5%;
+	margin-left: 20px;
+}
