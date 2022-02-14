@@ -5,6 +5,7 @@ import Notiflix from 'notiflix';
 Notiflix.Notify.init({
 	fontSize: '18px',
 	position: 'center-top',
+	width: '600px',
 });
 
 const refs = {
@@ -31,7 +32,7 @@ const options = {
 	},
 	onClose(selectedDates) {
 		if (selectedDates[0] <= options.defaultDate) {
-			Notiflix.Notify.failure('Пожалуйста выберите дату в будущем времени');
+			Notiflix.Notify.failure('ВНИМАНИЕ!!! Выберите дату и время в будущем периоде!');
 			return disableBtnStart();
 		}
 		Notiflix.Notify.success('Верный выбор! Для запуска обратного отсчёта жми START');
