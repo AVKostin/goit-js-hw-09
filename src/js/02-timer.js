@@ -38,8 +38,9 @@ const options = {
 	defaultDate: new Date(),
 	minuteIncrement: 1,
 	onClose(selectedDates) {
-		if (selectedDates[0] < options.defaultDate) {
-			Notify.failure('Пожалуйстаста выберите дату в будущем');
+		if (selectedDates[0] < new Date()) {
+			Notify.failure('Пожалуйста выберите дату в будущем');
+
 			return;
 		}
 		startBtn.removeAttribute('disabled');
@@ -74,8 +75,8 @@ const options = {
 			}
 			showTimer();
 			timerId = setInterval(showTimer, 1000);
+			startBtn.setAttribute('disabled', true);
 		};
-
 		startBtn.addEventListener('click', onClick);
 	},
 };
