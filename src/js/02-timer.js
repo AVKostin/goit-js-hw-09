@@ -1,20 +1,75 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import Notiflix from 'notiflix';
 
-Notify.init({
-	fontSize: '15px',
+Notiflix.Notify.init({
+	fontSize: '18px',
 	position: 'center-top',
 });
 
-const startBtn = document.querySelector('[data-start]');
-const daysRef = document.querySelector('[data-days]');
-const hoursRef = document.querySelector('[data-hours]');
-const minutesRef = document.querySelector('[data-minutes]');
-const secondsRef = document.querySelector('[data-seconds]');
+const refs = {
+	input: document.querySelector('#datetime-picker'),
+	startBtn: document.querySelector('button[data-start]'),
+	dataDays: document.querySelector('[data-days]'),
+	dataHours: document.querySelector('[data-hours]'),
+	dataMinutes: document.querySelector('[data-minutes]'),
+	dataSeconds: document.querySelector('[data-seconds]'),
+};
+let selectedTime = 0;
 let timerId = null;
+disableBtnStart();
+refs.startBtn.addEventListener('click', onClickBtnStart);
 
-startBtn.setAttribute('disabled', true);
+const options = {
+	enableTime: true,
+	time_24hr: true,
+	defaultDate: new Date(),
+	minuteIncrement: 1,
+	onChange() {
+		updateClockFace('00', '00', '00', '00');
+		clearInterval(timerId);
+	},
+	onClose(selectedDates) {
+		if (selectedDates[0] <= options.defaultDate) {
+			Notiflix.Notify.failure('Пожалуйста выберите дату в будущем времени');
+			return disableBtnStart();
+		}
+		Notiflix.Notify.success('Верный выбор! Для запуска обратного отсчёта жми START');
+		refs.startBtn.removeAttribute('disabled');
+		selectedTime = selectedDates[0].getTime();
+	},
+};
+
+flatpickr(refs.input, options);
+
+function disableBtnStart() {
+	refs.startBtn.setAttribute('disabled', true);
+}
+
+function onClickBtnStart() {
+	timerId = setInterval(() => {
+		const currentTime = Date.now();
+		const deltaTime = selectedTime - currentTime;
+		const { days, hours, minutes, seconds } = convertMs(deltaTime);
+		updateClockFace(days, hours, minutes, seconds);
+
+		if (days < 1 && hours < 1 && minutes < 1 && seconds < 1) {
+			clearInterval(timerId);
+		}
+	}, 1000);
+	disableBtnStart();
+}
+
+function updateClockFace(days, hours, minutes, seconds) {
+	refs.dataDays.textContent = days;
+	refs.dataHours.textContent = hours;
+	refs.dataMinutes.textContent = minutes;
+	refs.dataSeconds.textContent = seconds;
+}
+
+function addLeadingZero(value) {
+	return String(value).padStart(2, '0');
+}
 
 function convertMs(ms) {
 	const second = 1000;
@@ -29,56 +84,3 @@ function convertMs(ms) {
 
 	return { days, hours, minutes, seconds };
 }
-
-const addLeadingZero = value => String(value).padStart(2, 0);
-
-const options = {
-	enableTime: true,
-	time_24hr: true,
-	defaultDate: new Date(),
-	minuteIncrement: 1,
-	onClose(selectedDates) {
-		if (selectedDates[0] < new Date()) {
-			Notify.failure('Пожалуйста выберите дату в будущем');
-
-			return;
-		}
-		startBtn.removeAttribute('disabled');
-
-		const showTimer = () => {
-			const now = new Date();
-			localStorage.setItem('selectedData', selectedDates[0]);
-			const selectData = new Date(localStorage.getItem('selectedData'));
-
-			if (!selectData) return;
-
-			const diff = selectData - now;
-			const { days, hours, minutes, seconds } = convertMs(diff);
-			daysRef.textContent = days;
-			hoursRef.textContent = addLeadingZero(hours);
-			minutesRef.textContent = addLeadingZero(minutes);
-			secondsRef.textContent = addLeadingZero(seconds);
-
-			if (
-				daysRef.textContent === '0' &&
-				hoursRef.textContent === '00' &&
-				minutesRef.textContent === '00' &&
-				secondsRef.textContent === '00'
-			) {
-				clearInterval(timerId);
-			}
-		};
-
-		const onClick = () => {
-			if (timerId) {
-				clearInterval(timerId);
-			}
-			showTimer();
-			timerId = setInterval(showTimer, 1000);
-			startBtn.setAttribute('disabled', true);
-		};
-		startBtn.addEventListener('click', onClick);
-	},
-};
-
-flatpickr('#datetime-picker', { ...options });
