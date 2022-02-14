@@ -79,9 +79,8 @@ img {
 
 .form input {
 	display: flex;
-	width: 110px;
-	margin-right: -10px;
-	font-size: 18px;
+	width: 134px;
+	font-size: 28px;
 }
 
 .form label {
