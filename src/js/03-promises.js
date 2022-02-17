@@ -7,6 +7,10 @@ Notiflix.Notify.init({
 });
 
 const formEl = document.querySelector('form');
+const inputDelay = document.getElementById('delay');
+const inputStep = document.getElementById('step');
+const inputAmount = document.getElementById('amount');
+
 const startBtn = document.querySelector('button[data-start]');
 formEl.addEventListener('submit', promiseSubmit);
 
@@ -23,7 +27,6 @@ function promiseSubmit(e) {
 		return e.currentTarget.reset();
 	}
 	Notiflix.Notify.warning('Для новых расчётов перезагрузи страничку браузера F5');
-	startBtn.setAttribute('disabled', true);
 	e.currentTarget.reset();
 	for (let i = 1; i <= amount; i++) {
 		totalDelay = delay + step * (i - 1);
@@ -31,6 +34,10 @@ function promiseSubmit(e) {
 			.then(resolve => Notiflix.Notify.success(resolve))
 			.catch(reject => Notiflix.Notify.failure(reject));
 	}
+	startBtn.disabled = true;
+	inputDelay.disabled = true;
+	inputStep.disabled = true;
+	inputAmount.disabled = true;
 }
 
 function createPromise(position, delay) {

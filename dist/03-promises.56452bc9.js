@@ -137,6 +137,9 @@ _notiflix.default.Notify.init({
 });
 
 const formEl = document.querySelector('form');
+const inputDelay = document.getElementById('delay');
+const inputStep = document.getElementById('step');
+const inputAmount = document.getElementById('amount');
 const startBtn = document.querySelector('button[data-start]');
 formEl.addEventListener('submit', promiseSubmit);
 
@@ -156,13 +159,17 @@ function promiseSubmit(e) {
 
   _notiflix.default.Notify.warning('Для новых расчётов перезагрузи страничку браузера F5');
 
-  startBtn.setAttribute('disabled', true);
   e.currentTarget.reset();
 
   for (let i = 1; i <= amount; i++) {
     totalDelay = delay + step * (i - 1);
     createPromise(i, totalDelay).then(resolve => _notiflix.default.Notify.success(resolve)).catch(reject => _notiflix.default.Notify.failure(reject));
   }
+
+  startBtn.disabled = true;
+  inputDelay.disabled = true;
+  inputStep.disabled = true;
+  inputAmount.disabled = true;
 }
 
 function createPromise(position, delay) {
@@ -205,7 +212,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52088" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56116" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
