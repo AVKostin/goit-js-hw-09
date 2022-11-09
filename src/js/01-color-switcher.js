@@ -40,5 +40,3 @@ function getRandomHexColor() {
 
 btnStartEl.addEventListener('click', onStartRandomBGColor);
 btnStopEl.addEventListener('click', onStopChangeBGColor);
-
-///test попопопмодаломвмловжамотвжамтыв
